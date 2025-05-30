@@ -1,0 +1,19 @@
+# Gradle 빌드 산출물
+/whisper-backend/build/
+/whisper-frontend/build/
+
+# Gradle Wrapper
+/whisper-backend/gradle/
+/whisper-backend/gradlew*
+/whisper-frontend/gradle/
+/whisper-frontend/gradlew*
+
+# IDE 설정
+/.idea/
+*.iml
+
+# OS 임시 파일
+.DS_Store
+
+# 로그 파일
+*.log
