@@ -8,6 +8,13 @@
 /whisper-frontend/gradle/
 /whisper-frontend/gradlew*
 
+# 발표 시연용 test 폴더
+/test/frontend/node_modules/
+/test/backend/node_modules/
+/test/frontend/dist/
+/test/backend/build/
+
+
 # IDE 설정
 /.idea/
 *.iml
