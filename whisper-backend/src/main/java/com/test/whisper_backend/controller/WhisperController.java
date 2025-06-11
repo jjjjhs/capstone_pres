@@ -1,5 +1,6 @@
-package com.test.whisper_backend;
+package com.test.whisper_backend.controller;
 
+import com.test.whisper_backend.MultipartInputStreamFileResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
