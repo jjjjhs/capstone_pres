@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/api")
 public class AnalyseController {
     private static final Logger log = LoggerFactory.getLogger(AnalyseController.class);
     private static final double WINDOW_SEC = 30.0;  // 30초 윈도우
