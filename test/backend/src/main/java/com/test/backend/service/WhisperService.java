@@ -15,7 +15,7 @@ import java.util.Map;
 @Service
 public class WhisperService {
     private static final Logger log = LoggerFactory.getLogger(WhisperService.class);
-    private static final String OPENAI_API_KEY  = "";  // API 키
+    private static final String OPENAI_API_KEY  = "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";  // API 키
     private static final String WHISPER_API_URL = "https://api.openai.com/v1/audio/transcriptions";
 
     public String transcribe(File wavFile) throws Exception {

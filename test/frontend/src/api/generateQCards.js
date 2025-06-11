@@ -10,9 +10,9 @@ export async function generateQCards(imageBlob) {
   const form = new FormData();
   form.append('slide', imageBlob, 'slide.png');
   const res = await axios.post(
-    'http://localhost:8080/api/qcards', //URL 수정하기
+    'http://localhost:8000/api/qcards', //fast api 호출
     form,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   );
-  return res;
+  return res.data.data;
 }

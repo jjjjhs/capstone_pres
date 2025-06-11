@@ -26,9 +26,8 @@ export default function PracticePage() {
       try {
         const windows = await analyseAudio(blob);
 
-        
         const cue = /* 큐카드 문장 */"어쩌고";
-        const transcripts = windows.map(w => w.transcripts);
+        const transcripts = windows.map(w => w.transcript);
 
         // sentence_similarity / level API 호출
         const evals = await evaluateAccuracy(cue, transcripts);
