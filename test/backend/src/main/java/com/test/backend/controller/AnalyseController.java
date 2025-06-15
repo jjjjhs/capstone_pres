@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -18,7 +20,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(
+        origins = "http://localhost:5173",      // 허용할 출처
+        allowedHeaders = "*"
+)
 public class AnalyseController {
     private static final Logger log = LoggerFactory.getLogger(AnalyseController.class);
     private static final double WINDOW_SEC = 30.0;  // 30초 윈도우
@@ -46,8 +51,8 @@ public class AnalyseController {
 
             // 1) 임시 입력 파일 저장
             String orig = audioFile.getOriginalFilename();
-            String ext  = (orig != null && orig.contains(".")) 
-                            ? orig.substring(orig.lastIndexOf(".")) 
+            String ext  = (orig != null && orig.contains("."))
+                            ? orig.substring(orig.lastIndexOf("."))
                             : ".wav";
             File tempInput = File.createTempFile("in_", ext);
             audioFile.transferTo(tempInput);
@@ -55,7 +60,7 @@ public class AnalyseController {
 
             // 2) ffmpeg 변환: 16kHz mono WAV
             File tempWav = File.createTempFile("wavout_", ".wav");
-            String ffmpeg = "ffmpeg";
+            String ffmpeg = "C:\\Program Files\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe";
             String cmd = String.format(
                     "%s -y -i %s -ar 16000 -ac 1 %s",
                     ffmpeg, tempInput.getAbsolutePath(), tempWav.getAbsolutePath()
@@ -139,7 +144,11 @@ public class AnalyseController {
 
         } catch (Exception e) {
             log.error("❌ analyse failed", e);
-            return ResponseEntity.status(500).body(windows);
+            // 예외 발생 시 500과 함께 상세 메시지를 던집니다.
+            e.printStackTrace();  // ← 콘솔 오류 출력
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ArrayList<>());  // 또는 Collections.emptyList()
         }
     }
 }

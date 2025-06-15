@@ -20,24 +20,39 @@ export default function PracticePage() {
     mediaRef.current = { recorder, stream, chunks: [] };
 
     recorder.ondataavailable = e => mediaRef.current.chunks.push(e.data);
+
     recorder.onstop = async () => {
       const blob = new Blob(mediaRef.current.chunks, { type: 'audio/webm' });
       setLoading(true);
       try {
         const windows = await analyseAudio(blob);
 
-        const cue = /* 큐카드 문장 */"어쩌고";
-        const transcripts = windows.map(w => w.transcript);
+        const cue = /* 큐카드 문장 */"안녕하세요. 오늘은 대학생 발표 불안과 그 해결 방안에 대해 발표하겠습니다 ";
+
+        const transcripts = windows
+            .map(w => w.transcripts) // 여기가 실제 문자열인지 확인
+            .filter(t => typeof t === 'string' && t.trim() !== '');
 
         // sentence_similarity / level API 호출
         const evals = await evaluateAccuracy(cue, transcripts);
 
+        const merged = windows.map((w, i) => {
+          const evalResult = evals[i] || {
+            sentence_similarity: 0,
+            level: '없음'
+          };
+          return {
+            ...w,
+            sentence_similarity: Math.round(evalResult.sentence_similarity * 100),
+            level: evalResult.level
+          };
+        });
         // windows 에 두 필드를 병합
-        const merged = windows.map((w, i) => ({
-          ...w,
-          sentence_similarity: Math.round(evals[i].sentence_similarity * 100), // 0~100%
-          level: evals[i].level,
-        }));
+        // const merged = windows.map((w, i) => ({
+        //   ...w,
+        //   sentence_similarity: Math.round(evalResult.sentence_similarity * 100), // 0~100%
+        //   level: evalResult.level,
+        // }));
 
         // FeedbackPage로 넘기기
         navigate('/feedback', { state: { windows: merged } });

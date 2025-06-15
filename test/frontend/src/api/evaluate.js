@@ -9,7 +9,7 @@ import axios from 'axios';
 export async function evaluateAccuracy(cue, transcripts) {
   const payload = { cue, transcripts };
   const res = await axios.post(
-    'http://localhost:8080/api/evaluate', //URL 수정하기
+    'http://localhost:8000/api/evaluate', //URL 수정하기
     payload,
     { headers: { 'Content-Type': 'application/json' } }
   );

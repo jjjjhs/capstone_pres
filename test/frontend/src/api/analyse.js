@@ -1,3 +1,4 @@
+// src/api/analyse.js
 import axios from 'axios';
 
 export async function analyseAudio(blob) {
@@ -6,7 +7,7 @@ export async function analyseAudio(blob) {
   const res = await axios.post(
     'http://localhost:8080/api/analyse',
     form,
-    { headers: { 'Content-Type': 'multipart/form-data' } }
+      {headers: {"Content-Type": "application/form-data"}}
   );
   return res.data; // List<WindowDto>
 }

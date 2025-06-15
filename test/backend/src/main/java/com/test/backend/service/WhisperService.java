@@ -8,14 +8,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
+import org.springframework.http.converter.StringHttpMessageConverter;
+import java.nio.charset.StandardCharsets;
 import java.io.File;
 import java.util.Map;
 
 @Service
 public class WhisperService {
     private static final Logger log = LoggerFactory.getLogger(WhisperService.class);
-    private static final String OPENAI_API_KEY  = "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";  // API 키
+    private static final String OPENAI_API_KEY  = "" // API 키
     private static final String WHISPER_API_URL = "https://api.openai.com/v1/audio/transcriptions";
 
     public String transcribe(File wavFile) throws Exception {
@@ -31,7 +32,11 @@ public class WhisperService {
 
         HttpEntity<MultiValueMap<String,Object>> req = new HttpEntity<>(body, headers);
         log.info("      ▶ Sending Whisper API request...");
+
         RestTemplate rest = new RestTemplate();
+        //한글 깨짐 현상 -> utf-8 명시
+        rest.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+
         @SuppressWarnings("unchecked")
         Map<String,Object> resp = rest.postForObject(WHISPER_API_URL, req, Map.class);
 
