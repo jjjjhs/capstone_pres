@@ -23,7 +23,8 @@ poppler_path=r"C:/Users/jhs38/poppler-24.08.0/Library/bin"
 # model = SentenceTransformer('snunlp/KR-SBERT-V40K-klueNLI-augSTS')
 #okt = Okt()
 
-#uvicorn main:app --reload --port 8000
+#py -m pip install fastapi uvicorn aiofiles pdf2image pytesseract python-pptx openai konlpy
+#py -m uvicorn main:app --reload --port 8000
 
 # openai api key 설정
 client = OpenAI(api_key="") #api key를 여기에 입력하세요
@@ -223,7 +224,7 @@ def generate_presentation_script(slide_text: str) -> str:
 
 def gpt_compare(cue: str, stt: str) -> Dict:
     """
-    GPT-3.5/4 에게 'cue'와 'stt' 두 문장을 주고,
+    GPT에게 'cue'와 'stt' 두 문장을 주고,
     JSON 형태(키: sentence_similarity, intent_match, keyword_coverage, level)로
     결과만 딱 리턴해 달라고 요청합니다.
     """
@@ -272,10 +273,12 @@ def gpt_compare(cue: str, stt: str) -> Dict:
         m = {}
         nums = re.findall(r'"sentence_similarity"\s*:\s*([0-9.]+)', content)
         m["sentence_similarity"] = float(nums[0]) if nums else 0.0
-        nums = re.findall(r'"intent_match"\s*:\s*([0-9.]+)', content)
-        m["intent_match"] = float(nums[0]) if nums else 0.0
-        nums = re.findall(r'"keyword_coverage"\s*:\s*([0-9.]+)', content)
-        m["keyword_coverage"] = float(nums[0]) if nums else 0.0
+        
+        # nums = re.findall(r'"intent_match"\s*:\s*([0-9.]+)', content)
+        # m["intent_match"] = float(nums[0]) if nums else 0.0
+        # nums = re.findall(r'"keyword_coverage"\s*:\s*([0-9.]+)', content)
+        # m["keyword_coverage"] = float(nums[0]) if nums else 0.0
+        
         lvl = re.search(r'"level"\s*:\s*"([^"]+)"', content)
         m["level"] = lvl.group(1) if lvl else ""
         return m
@@ -471,8 +474,8 @@ async def evaluate_with_audio(
         return EvaluateAudioResponse(
             stt_text=stt_text,
             sentence_similarity=r.get("sentence_similarity", 0.0),
-            intent_match=r.get("intent_match", 0.0),
-            keyword_coverage=r.get("keyword_coverage", 0.0),
+            #intent_match=r.get("intent_match", 0.0),
+            #keyword_coverage=r.get("keyword_coverage", 0.0),
             level=r.get("level", "")
         )
 
