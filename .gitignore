@@ -1,26 +1,7 @@
-# Gradle 빌드 산출물
-/whisper-backend/build/
-/whisper-frontend/build/
-
-# Gradle Wrapper
-/whisper-backend/gradle/
-/whisper-backend/gradlew*
-/whisper-frontend/gradle/
-/whisper-frontend/gradlew*
-
-# 발표 시연용 test 폴더
-/test/frontend/node_modules/
-/test/backend/node_modules/
-/test/frontend/dist/
-/test/backend/build/
-
-
-# IDE 설정
-/.idea/
 *.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
-# OS 임시 파일
-.DS_Store
 
-# 로그 파일
-*.log
