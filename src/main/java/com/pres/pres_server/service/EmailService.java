@@ -1,7 +1,5 @@
 package com.pres.pres_server.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 //인증 코드 생성·전송 로직

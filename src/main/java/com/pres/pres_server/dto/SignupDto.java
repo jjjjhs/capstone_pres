@@ -1,21 +1,28 @@
 package com.pres.pres_server.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SignupDto {
     private int id;
     private String username;
-    private String password;
-    private String email;
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
+    @Email @NotBlank
+    private String email;
+    @NotBlank
+    private String password;
+
     public static class SignupRequest {
+        @Email @NotBlank
         private String email;
-        private String type;
+        @NotBlank
+        private String password;
     }
 
     @Getter @AllArgsConstructor
