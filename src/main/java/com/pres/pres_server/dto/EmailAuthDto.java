@@ -1,15 +1,21 @@
 package com.pres.pres_server.dto;
 
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+//역할: 클라이언트↔서버 간 요청·응답에 쓰이는 데이터 구조체
+//구성: 이메일 주소, 인증 코드 같은 필드만 가짐
+//로직: 없음 (getter/setter만)
 
 public class EmailAuthDto {
 
     @Getter @Setter
     @NoArgsConstructor @AllArgsConstructor @Builder
     public static class SendRequest {
+        @NotBlank @Email
         private String email;
-        private String type;
     }
 
     @Getter @AllArgsConstructor
@@ -20,8 +26,10 @@ public class EmailAuthDto {
     @Getter @Setter
     @NoArgsConstructor @AllArgsConstructor @Builder
     public static class VerifyRequest {
+        @NotBlank @Email
         private String email;
-        private String authNum;
+        @NotBlank
+        private String authCode;
     }
 
     @Getter @AllArgsConstructor
